@@ -1,3 +1,29 @@
 <h1>
   {{title}}
 </h1>
+
+<h3>
+  {{description}}
+</h3>
+<h3 *ngIf="errorMsg === 'Not Found'">  
+  The backend server returns error : {{errorMsg}}
+</h3>
+<section>
+<ul *ngFor=" let course of courses">
+   <li>{{course.courseTitle}}</li>
+  <li>{{course.courseDescription}}</li>
+  <li>{{course.courseCredit}}</li>
+  
+</ul>
+
+</section>
+<section class="half-page">
+           <form #valForm="ngForm" (ngSubmit)="addCourse(valForm.value); " >
+            <input class="form-control" type="text"  name="courseTitle"  ngModel placeholder="Enter Course Title" required>
+            <input class="form-control"type="text" name="courseDescription" ngModel placeholder="Enter Course Description" required>
+            <input class="form-control"type="number" name="courseCredit" ngModel placeholder="0"  min="0" max="3" required>
+            <input class="form-control btn btn-primary" type="submit" value="Create Course" [disabled]="!valForm.form.valid"
+             >
+            <br><br>
+           </form>
+</section>
