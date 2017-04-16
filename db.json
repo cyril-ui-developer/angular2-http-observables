@@ -19,22 +19,10 @@
       "courseCredit": 3
     },
     {
-      "courseTitle": "sdds",
-      "courseDescription": "dsd",
+      "courseTitle": "Angular 2 Testing",
+      "courseDescription": "Angular 2 Testing Fundamentals",
       "courseCredit": 1,
       "id": 4
-    },
-    {
-      "courseTitle": "Course 101",
-      "courseDescription": "Intro Programming",
-      "courseCredit": 2,
-      "id": 5
-    },
-    {
-      "courseTitle": "dff",
-      "courseDescription": "fsfs",
-      "courseCredit": 3,
-      "id": 6
     }
   ]
 }

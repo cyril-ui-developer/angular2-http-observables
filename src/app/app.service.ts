@@ -9,15 +9,14 @@ import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class AppService {
-endpointUrl ="http://localhost:3000/courses";  
 
+private endpointUrl ="http://localhost:3000/courses";  
 
   constructor(private http:Http) { 
-    this.getCourses();
+   
   }
   
    getCourses(): Observable<AppModel[]> {
-
     return this.http.get(this.endpointUrl )
                     .map((response: Response) => {
                       const result = response.json();

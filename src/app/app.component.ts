@@ -8,8 +8,8 @@ import { AppService } from './app.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  title = 'app works!';
- description = "This application implement how to get data from and post data to backend server using Angular 2 framework";
+  title = 'Getting and Posting Data to Server in Angular 2 using Observable';
+  description = "This application implement how to get data from and post data to backend server using Angular 2 framework";
   courses = [];
   errorMsg :string;
   errorFlag: boolean = false;
@@ -25,16 +25,17 @@ export class AppComponent implements OnInit{
             
     }
 
- 
+
     addCourse(course: AppModel) {
-//  if (!name) { return; }
-  this.appService.createCourse(course)
+    this.appService.createCourse(course)
                    .subscribe(
                               (course)  => {this.courses.push(course)},
                               (error) =>  {this.errorMsg = error}
+                          
                      );
+                
 }
-  
+ 
   ngOnInit(){
     this.fetchCourseData(); 
   }

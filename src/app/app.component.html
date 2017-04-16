@@ -1,29 +1,41 @@
-<h1>
+<section class="container">
+<section class="row">
+<header class="col-md-12 alert alert-info">  
+<h3 class="">
   {{title}}
-</h1>
+</h3>
 
-<h3>
+<h6>
   {{description}}
-</h3>
-<h3 *ngIf="errorMsg === 'Not Found'">  
-  The backend server returns error : {{errorMsg}}
-</h3>
-<section>
-<ul *ngFor=" let course of courses">
-   <li>{{course.courseTitle}}</li>
-  <li>{{course.courseDescription}}</li>
-  <li>{{course.courseCredit}}</li>
-  
-</ul>
+</h6>
+</header>
+<section class="row">
+  <article class="col-md-7">
+    <h3 *ngIf="errorMsg === 'Not Found'">  
+    The backend server returns error : {{errorMsg}}
+    </h3>
+    <h4>View Courses</h4>
+ 
+    <ul *ngFor=" let course of courses" class="well well-sm">
+    <li><strong>Course Title:</strong> {{course.courseTitle}}</li>
+    <li><strong>Course Description:</strong> {{course.courseDescription}}</li>
+    <li><strong> Credit: </strong>{{course.courseCredit}}</li> 
+    </ul>
+    </article>
+    
 
+    <article class="col-md-5">
+     <h4>Create Course</h4>
+        <form #valForm="ngForm" (ngSubmit)="addCourse(valForm.value);" >
+        <label>Course Title</label>
+        <input class="form-control" type="text"  name="courseTitle"  ngModel placeholder="Enter Course Title" required>
+        <label>Course Description</label>
+        <input class="form-control"type="text" name="courseDescription" ngModel placeholder="Enter Course Description" required>
+        <label>Course Credit</label>
+        <input class="form-control"type="number" name="courseCredit" ngModel placeholder="0"  min="0" max="3" required>
+        <input class="form-control btn btn-primary"  type="submit" value="Create Course" [disabled]="!valForm.form.valid"
+        >
+      </form>
+  </article>
 </section>
-<section class="half-page">
-           <form #valForm="ngForm" (ngSubmit)="addCourse(valForm.value); " >
-            <input class="form-control" type="text"  name="courseTitle"  ngModel placeholder="Enter Course Title" required>
-            <input class="form-control"type="text" name="courseDescription" ngModel placeholder="Enter Course Description" required>
-            <input class="form-control"type="number" name="courseCredit" ngModel placeholder="0"  min="0" max="3" required>
-            <input class="form-control btn btn-primary" type="submit" value="Create Course" [disabled]="!valForm.form.valid"
-             >
-            <br><br>
-           </form>
 </section>
