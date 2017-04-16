@@ -29,6 +29,12 @@
       "courseDescription": "Intro Programming",
       "courseCredit": 2,
       "id": 5
+    },
+    {
+      "courseTitle": "dff",
+      "courseDescription": "fsfs",
+      "courseCredit": 3,
+      "id": 6
     }
   ]
 }

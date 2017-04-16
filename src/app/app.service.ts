@@ -9,7 +9,7 @@ import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class AppService {
-baseUrl ="http://localhost:3000/course";  
+endpointUrl ="http://localhost:3000/courses";  
 
 
   constructor(private http:Http) { 
@@ -18,7 +18,7 @@ baseUrl ="http://localhost:3000/course";
   
    getCourses(): Observable<AppModel[]> {
 
-    return this.http.get(this.baseUrl)
+    return this.http.get(this.endpointUrl )
                     .map((response: Response) => {
                       const result = response.json();
                       return result;
@@ -33,7 +33,7 @@ baseUrl ="http://localhost:3000/course";
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.baseUrl , obj , options)
+    return this.http.post(this.endpointUrl, obj , options)
                      .map((response: Response) => {
                       const result = response.json();
                       return result;
