@@ -26,11 +26,11 @@
 
     <article class="col-md-5">
      <h4>Create Course</h4>
-        <form #valForm="ngForm" (ngSubmit)="addCourse(valForm.value);" >
+        <form #valForm="ngForm" (ngSubmit)="addCourse(valForm.value); valForm.reset();" >
         <label>Course Title</label>
         <input class="form-control" type="text"  name="courseTitle"  ngModel placeholder="Enter Course Title" required>
         <label>Course Description</label>
-        <input class="form-control"type="text" name="courseDescription" ngModel placeholder="Enter Course Description" required>
+        <textarea class="form-control"  name="courseDescription" ngModel placeholder="Enter Course Description" required></textarea>
         <label>Course Credit</label>
         <input class="form-control"type="number" name="courseCredit" ngModel placeholder="0"  min="0" max="3" required>
         <input class="form-control btn btn-primary"  type="submit" value="Create Course" [disabled]="!valForm.form.valid"
