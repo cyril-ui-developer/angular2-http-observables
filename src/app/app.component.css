@@ -17,3 +17,12 @@
   li{
       list-style-type: none;
   }
+  input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched{
+      border-color:red;
+      opacity: 0.3;
+  }
+
+  .text-invalid{
+    color:red;
+    opacity: 0.7;
+  }

@@ -27,14 +27,32 @@
     <article class="col-md-5">
      <h4>Create Course</h4>
         <form #valForm="ngForm" (ngSubmit)="addCourse(valForm.value); valForm.reset();" >
-        <label>Course Title</label>
-        <input class="form-control" type="text"  name="courseTitle"  ngModel placeholder="Enter Course Title" maxlength="30" required>
-        <label>Course Description</label>
-        <textarea class="form-control"  name="courseDescription" ngModel placeholder="Enter Course Description" maxlength="100"required></textarea>
+        <label for="courseTitle">Course Title</label>
+        <input class="form-control" 
+         type="text"  
+         name="courseTitle"  
+         ngModel 
+         placeholder="Enter Course Title" 
+         maxlength="30" 
+         #courseTitle="ngModel"
+         required>
+         <span class="text-invalid" *ngIf="courseTitle.invalid && courseTitle.touched">Course Title must be less or equal to 30 charaters</span>
+         <label>Course Description</label>
+         <textarea class="form-control" 
+         name="courseDescription" 
+         ngModel 
+         placeholder="Enter Course Description" 
+         maxlength="100"
+         #courseDescription="ngModel"
+         required></textarea>
+           <span class="text-invalid" *ngIf="courseDescription.invalid && courseDescription.touched">Course Description must be less or equal to 100 charaters</span>
         <label>Course Credit</label>
-        <input class="form-control"type="number" name="courseCredit" ngModel placeholder="0"  min="0" max="3" required>
-        <input class="form-control btn btn-primary"  type="submit" value="Create Course" [disabled]="!valForm.form.valid"
-        >
+        <!--<input class="form-control" type="number" name="courseCredit" ngModel placeholder="0"  min="0" max="3" required>-->
+        <select class="form-control" name="courseCredit" ngModel [ngModel]="defaultCourseCredit">
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+        </select>
+        <input class="form-control btn btn-primary"  type="submit" value="Create Course" [disabled]="!valForm.form.valid" >
+       
       </form>
   </article>
 </section>

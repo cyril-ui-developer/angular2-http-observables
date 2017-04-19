@@ -13,6 +13,7 @@ export class AppComponent implements OnInit{
   courses = [];
   errorMsg :string;
   errorFlag: boolean = false;
+  defaultCourseCredit:string = "1";
 
   constructor(private appService:AppService ){
 }
