@@ -1,0 +1,241 @@
+---
+type: Blog
+title: How to build a Search application in React
+desc: This tutorial demonstrates how to build a simple search application in React. Let's imagine we want users to be able to see certain items displayed on the screen based on their search criteria i.e. name. In this tutorial, we’ll make use of a public API for dogs to get the dog data that matches the user search query. As the user enters a search query, the dog(s) that matches the query is returned and displayed, else a Not found message is displayed. Let’s get started. 
+
+date: 08-20-2022
+hero: ../../assets/images/simple-search-application.png
+tags: [react, webdev]
+---
+
+## Introduction
+
+This tutorial demonstrates how to build a simple search application in React. Let's imagine we want users to be able to see certain items displayed on the screen based on their search criteria i.e. name. In this tutorial, we’ll make use of a public API for dogs to get the dog data that matches the user search query. As the user enters a search query, the dog(s) that matches the query is returned and displayed, else a Not found message is displayed. Let’s get started. 
+
+Pre-requisite:
+---
+
+
+- Basic knowledge of Javascript, and React
+- Familar with Asynchronous Operations and Promise
+- Access to the **api-ninjas.com key** - <a href="https://api-ninjas.com/api/dogs" target="_blank">API Ninjas</a>.  To get the API, register here - <a href="https://api-ninjas.com/register" target="_blank">API Ninjas - Sign up</a> Then go to My Account, and locate the API key
+
+
+
+### Step 1:
+- Scaffold a React application. One quick and easy way to do this is to use the  Create React App tool. See Create React App site for details - https://create-react-app.dev/
+
+- Create a React app project and give it the name - simple-search-app
+```
+npx create-react-app simple-search-app
+```
+
+### Step 2:
+
+- Open the simple-search-app project in any code editor of your choice
+- Open the App.js file and delete the content in the return statement. 
+- Then enter a heading text. Simple Search App
+```
+<h2>Simple Search App</h2>
+```
+
+### Step 3:
+
+Create a method for fetching the dog data from the API above the App component, and give it the name of `searchAPI`. This could be in the same file or a separate file. For this example place every code in App.js. You need to use asynchronous operation since the data is coming from a remote server/API. To implement the network request to the API, use JavaScript `fetch` method with Promise. Then, give the method a parameter called `name` and enter the API url and API key as shown below: 
+
+```
+const  SearchAPI = (name) =>    
+fetch(`https://api.api-ninjas.com/v1/dogs?name=${name}`, 
+{headers: {  'X-Api-Key': 'xxxxx' }} )  // Replace the `xxxxx` with your API key  
+.then(res => res.json())      
+.then(data => data)
+
+```
+
+### Step 4:
+
+- import `useState` in the first line
+```
+import React, { useState } from "react";
+```
+- Declare two state properties, and setters using the `useState` hook in App component, then give them  default values of  empty string  `’’` and empty `[]`
+```
+const [searchQuery, setSearchQuery] = useState(‘’);`
+const [searchResult, setSearchResult] = useState([]);`
+```
+
+### Step 5:
+
+Create an onChange method and give it an argument of `event`. Then console.log out the value of `event.target.value`. 
+
+
+```
+ const onSearchQueryChange = (event)=>{
+   console.log(event.target.value)
+  }
+
+```
+
+### Step 6:
+Add an HTML input field below the heading text, and set the attributes as shown below.
+
+```
+ <input type="search"  name="searchQuery"   onChange={ onSearchQueryChange}  placeholder={search by name} />
+```
+Launch the app and open the browser dev tools console tab. Test the app by entering a query text i.e. aaa, then look at the console log for the output for `event.target.value`. If you get the value entered in the input field as console.log output? Congrats on completing the first milestone in the implementation, the input field is tied to the `onSearchQueryChange` method correctly. Else repeat steps 3 to 6 again. 
+
+### Step 7:
+- Implement the `searchAPI` method created in step 3 to get dogs' data that match a certain search query. We’ll invoke the method and use the `then` method to resolve the Promise when the data is available since it’s an asynchronous operation. Then use the setter - `setSearchResult` to set the returned data to state property - `searchResult`
+
+```
+const onSearchQueryChange = (event) => {      
+    e.preventDefault();     
+    setSearchQuery(e.target.value); 
+    // Fetch search data based on query`    
+    SearchAPI(searchQuery)       
+    .then((data) => {     
+               
+    // Set data to result`            
+    setSearchResult(data);   
+    
+    console.log(data, searchResult)
+    })        
+    .catch((e) => {console.log("error:", e)});    
+    };
+```
+
+- Remove the previous console.log in 6 and place it inside the `then` callback, and change the log argument to `data` and `searchResult`.
+
+Again, test the app by entering a query text i.e. Bohemian Shepherd
+, then look at the console log for the output for `data`. You should get the dog data returned from the API. 
+
+## Step 8:
+
+Display the value of `searchResult` below the input field. To do this, use `map` method to loop over the `searchResult` result, then access the `name` and `image_link` to display the dog name and image. 
+
+```
+{  searchResult.map(dog =>(   
+     <div>     
+         <img  src={image} alt=""/> 
+          <h5 >{name} </h5>      
+     </div>  
+     )
+)}
+```
+
+ Again, test the app by entering a query text i.e. Bohemian Shepherd. You should see the dog data returned from the API displayed on the screen. 
+
+
+## Step 9:
+
+Add conditions to handle invalid search query, and clear search screen if the `searchQuery` or `searchResult` is empty. See the changes as shown below.
+
+```
+  // Perform two checks here 
+  // 1- Clear search input field if the query is empty
+  // 2- Hnadle non match search query i.e. "xxx"`. So check if the result array - 'data` of length `0` 
+  // Note: The API would returns empty result array-`[]` for non match query
+  // If one of them is true, set empty array `[]` to search result property
+
+        if (event.target.value === "" || data?.length === 0) {  
+          return setSearchResult([]);
+        }        
+
+```
+
+ Again, test the app by entering an invalid query text i.e. 123. No dog data is returned and the screen is empty. Also, you can enter a valid search query i.e. aaa get dog data displayed, then delete all the letters. The screen should be empty again
+
+## Step 10:
+
+Add a ternary condition to display dog data if available else show Not found message. 
+
+
+```
+{searchResult.length > 0 ?( 
+  searchResult.map(dog =>(    
+      <div>     
+         <img  src={image} alt=""/> 
+          <h5 >{name} </h5>      
+     </div> )  
+     )):
+     ( <h3> No found </h3>)
+}
+```
+
+ Lastly test the app again by entering an invalid query text i.e. 123. No dog data is returned and the Not found message is display. Also, you can enter a valid search query i.e. aaa, the dog data are displayed, then delete all the letters. The Not found message is display again
+
+Complete code for the  simple search application implementation with Tailwind CSS styling
+
+```
+import React, {useState} from "react";
+
+ // Some valid search query- 'Bohemian Shepherd'
+ // Replace the `xxxxx` with your API key  
+ const  SearchAPI = (name) =>
+    fetch(`https://api.api-ninjas.com/v1/dogs?name=${name}`, {headers: {  'X-Api-Key': 'xxxxx' }} ) 
+      .then(res => res.json())
+      .then(data => data)
+  
+
+export default function App() {
+  const [ searchQuery, setSearchQuery] = useState('')
+  const [ searchResult, setSearchResult] = useState([])
+
+  const onSearchQueryChange = (event) => {
+    event.preventDefault();
+     setSearchQuery(event.target.value);
+  
+    // Fetch search data based on query`
+    SearchAPI(searchQuery)
+       .then((data) => {
+          
+           // Perform two check here 
+           // 1- Clear search input field if the query is empty
+           // 2- Hnadle non match search query i.e. "xxx"`. So check if the result array- 'data` of length `0` 
+           // Note: The API would returns empty result array-`[]` for non match query
+           // If one of them is true, set empty array `[]` to result property
+
+           if (event.target.value === "" || data?.length === 0) {  
+              return setSearchResult([]);
+            }
+          // Else both conditions are false, set data to result propery`
+            setSearchResult(data);
+  
+        })
+        .catch((err) => {
+            console.log("error:", err)
+        });
+    };
+     
+  return (
+    <div>
+      <h2 >Simple Search App</h2>
+      <div>
+  <div >
+    <div>
+      <input type="search"  name="searchQuery"   onChange={ onSearchQueryChange}     
+      placeholder="Search by name" aria-label="Search" />
+    </div>
+  </div>
+</div>
+{searchResult.length > 0 ?(
+   searchResult.map(dog =>(
+    <div>
+        <img src={dog.image_link} alt="dog"/>
+      <div>
+        <h5>{dog.name} </h5>
+      </div>
+    </div>
+  )
+  )
+):(
+ <h2> No found </h2>
+)
+}
+</div>
+);
+}
+
+````
+
+### That’s it!
